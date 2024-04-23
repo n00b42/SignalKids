@@ -8,6 +8,7 @@ import org.signal.libsignal.protocol.SignalProtocolAddress
 import org.signal.libsignal.protocol.ecc.ECPublicKey
 import org.signal.libsignal.protocol.message.DecryptionErrorMessage
 import org.signal.libsignal.zkgroup.groups.GroupSecretParams
+import org.thoughtcrime.securesms.database.IdentityTable // KIDS
 import org.thoughtcrime.securesms.database.MessageType
 import org.thoughtcrime.securesms.database.SignalDatabase
 import org.thoughtcrime.securesms.database.model.GroupRecord
@@ -143,6 +144,9 @@ open class MessageContentProcessor(private val context: Context) {
 
     @Throws(BadGroupIdException::class)
     private fun shouldIgnore(content: Content, senderRecipient: Recipient, threadRecipient: Recipient): Boolean {
+      val identityRecord = ApplicationDependencies.getProtocolStore().aci().identities().getIdentityRecord(senderRecipient.id) // KIDS
+      if (SignalStore.settings().getParentalLockEnabled() && ((!identityRecord.isPresent()) || (identityRecord.get().verifiedStatus != IdentityTable.VerifiedStatus.VERIFIED))) { return true; } // KIDS
+
       if (content.dataMessage != null) {
         val message = content.dataMessage!!
         return if (threadRecipient.isGroup && threadRecipient.isBlocked) {

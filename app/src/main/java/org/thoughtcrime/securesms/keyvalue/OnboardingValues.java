@@ -1,7 +1,6 @@
 package org.thoughtcrime.securesms.keyvalue;
 
 import android.content.Context;
-
 import androidx.annotation.NonNull;
 
 import java.util.Collections;
@@ -50,6 +49,7 @@ public final class OnboardingValues extends SignalStoreValues {
   }
 
   public boolean shouldShowNewGroup() {
+    if (SignalStore.settings().getParentalLockEnabled()) return false;
     return getBoolean(SHOW_NEW_GROUP, false);
   }
 
@@ -58,6 +58,7 @@ public final class OnboardingValues extends SignalStoreValues {
   }
 
   public boolean shouldShowInviteFriends() {
+    if (SignalStore.settings().getParentalLockEnabled()) return false;
     return getBoolean(SHOW_INVITE_FRIENDS, false);
   }
 

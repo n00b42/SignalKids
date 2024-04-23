@@ -146,6 +146,7 @@ class AppSettingsFragment : DSLSettingsFragment(
         )
       )
 
+      if (!SignalStore.settings().getParentalLockEnabled()) { // KIDS
       clickPref(
         title = DSLSettingsText.from(R.string.AccountSettingsFragment__account),
         icon = DSLSettingsIcon.from(R.drawable.symbol_person_circle_24),
@@ -153,6 +154,7 @@ class AppSettingsFragment : DSLSettingsFragment(
           findNavController().safeNavigate(R.id.action_appSettingsFragment_to_accountSettingsFragment)
         }
       )
+      } // KIDS
 
       clickPref(
         title = DSLSettingsText.from(R.string.preferences__linked_devices),
@@ -163,6 +165,7 @@ class AppSettingsFragment : DSLSettingsFragment(
         isEnabled = state.isRegisteredAndUpToDate()
       )
 
+      if (!SignalStore.settings().getParentalLockEnabled()) { // KIDS
       if (state.allowUserToGoToDonationManagementScreen) {
         clickPref(
           title = DSLSettingsText.from(R.string.preferences__donate_to_signal),
@@ -180,6 +183,7 @@ class AppSettingsFragment : DSLSettingsFragment(
           linkId = R.string.donate_url
         )
       }
+      } // KIDS
 
       dividerPref()
 
@@ -200,6 +204,7 @@ class AppSettingsFragment : DSLSettingsFragment(
         isEnabled = state.isRegisteredAndUpToDate()
       )
 
+      if (!SignalStore.settings().getParentalLockEnabled()) { // KIDS
       clickPref(
         title = DSLSettingsText.from(R.string.preferences__stories),
         icon = DSLSettingsIcon.from(R.drawable.symbol_stories_24),
@@ -208,6 +213,7 @@ class AppSettingsFragment : DSLSettingsFragment(
         },
         isEnabled = state.isRegisteredAndUpToDate()
       )
+      } // KIDS
 
       clickPref(
         title = DSLSettingsText.from(R.string.preferences__notifications),
@@ -247,7 +253,7 @@ class AppSettingsFragment : DSLSettingsFragment(
 
       dividerPref()
 
-      if (SignalStore.paymentsValues().paymentsAvailability.showPaymentsMenu()) {
+      if (SignalStore.paymentsValues().paymentsAvailability.showPaymentsMenu() && !SignalStore.settings().getParentalLockEnabled()) { // KIDS
         customPref(
           PaymentsPreference(
             unreadCount = state.unreadPaymentsCount
@@ -267,6 +273,7 @@ class AppSettingsFragment : DSLSettingsFragment(
         }
       )
 
+      if (!SignalStore.settings().getParentalLockEnabled()) { // KIDS
       clickPref(
         title = DSLSettingsText.from(R.string.AppSettingsFragment__invite_your_friends),
         icon = DSLSettingsIcon.from(R.drawable.symbol_invite_24),
@@ -274,6 +281,7 @@ class AppSettingsFragment : DSLSettingsFragment(
           findNavController().safeNavigate(R.id.action_appSettingsFragment_to_inviteActivity)
         }
       )
+      } // KIDS
 
       if (FeatureFlags.internalUser()) {
         dividerPref()

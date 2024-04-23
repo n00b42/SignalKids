@@ -76,6 +76,7 @@ import org.thoughtcrime.securesms.groups.ui.invitesandrequests.ManagePendingAndR
 import org.thoughtcrime.securesms.groups.ui.managegroup.dialogs.GroupDescriptionDialog
 import org.thoughtcrime.securesms.groups.ui.managegroup.dialogs.GroupInviteSentDialog
 import org.thoughtcrime.securesms.groups.ui.managegroup.dialogs.GroupsLearnMoreBottomSheetDialogFragment
+import org.thoughtcrime.securesms.keyvalue.SignalStore // KIDS
 import org.thoughtcrime.securesms.mediaoverview.MediaOverviewActivity
 import org.thoughtcrime.securesms.mediapreview.MediaIntentFactory
 import org.thoughtcrime.securesms.messagerequests.MessageRequestRepository
@@ -585,7 +586,7 @@ class ConversationSettingsFragment : DSLSettingsFragment(
           }
         }
 
-        if (!state.recipient.isReleaseNotes && !state.recipient.isSelf) {
+        if (!state.recipient.isReleaseNotes && !state.recipient.isSelf && !SignalStore.settings().getParentalLockEnabled()) { // KIDS
           clickPref(
             title = DSLSettingsText.from(R.string.ConversationSettingsFragment__view_safety_number),
             icon = DSLSettingsIcon.from(R.drawable.symbol_safety_number_24),
@@ -660,7 +661,7 @@ class ConversationSettingsFragment : DSLSettingsFragment(
             )
           )
 
-          if (!state.recipient.isBlocked) {
+          if (!state.recipient.isBlocked && !SignalStore.settings().getParentalLockEnabled()) { // KIDS
             customPref(
               LargeIconClickPreference.Model(
                 title = DSLSettingsText.from(R.string.ConversationSettingsFragment__add_to_a_group),
@@ -708,7 +709,7 @@ class ConversationSettingsFragment : DSLSettingsFragment(
           sectionHeaderPref(DSLSettingsText.from(resources.getQuantityString(R.plurals.ContactSelectionListFragment_d_members, memberCount, memberCount)))
         }
 
-        if (groupState.canAddToGroup && !state.isDeprecatedOrUnregistered) {
+        if (groupState.canAddToGroup && !state.isDeprecatedOrUnregistered && !SignalStore.settings().getParentalLockEnabled()) { // KIDS
           customPref(
             LargeIconClickPreference.Model(
               title = DSLSettingsText.from(R.string.ConversationSettingsFragment__add_members),
@@ -744,7 +745,7 @@ class ConversationSettingsFragment : DSLSettingsFragment(
           )
         }
 
-        if (state.recipient.isPushV2Group) {
+        if (state.recipient.isPushV2Group && !SignalStore.settings().getParentalLockEnabled()) { // KIDS
           dividerPref()
 
           clickPref(
@@ -793,7 +794,7 @@ class ConversationSettingsFragment : DSLSettingsFragment(
         }
       }
 
-      if (state.canModifyBlockedState) {
+      if (state.canModifyBlockedState && !SignalStore.settings().getParentalLockEnabled()) { // KIDS
         state.withRecipientSettingsState {
           dividerPref()
         }
